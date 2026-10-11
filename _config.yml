@@ -1,11 +1,10 @@
 # Site settings
 title: Roxy Blog
 SEOTitle: Roxy的博客 | Roxy Blog
-header-img: img/home-bg.jpg
 email: roxy1103200@gmail.com
 description: "这里是 @Roxy 的个人博客"
 keyword: "Roxy Blog, 博客, 个人网站, 互联网, Web"
-url: "https://github.com/roxy1103200" # your host, for absolute URL
+url: "https://roxy1103200.github.io" # site URL for canonical and social metadata
 baseurl: "" # for example, '/blog' if your blog hosted on 'host/blog'
 
 
@@ -17,7 +16,7 @@ future: true
 RSS: false
 weibo_username: Roxy
 zhihu_username: Roxy
-github_username: Roxy
+github_username: roxy1103200
 twitter_username: Roxy
 #facebook_username:  huxpro
 #linkedin_username:  firstname-lastname-idxxxx
@@ -79,10 +78,10 @@ netease_comment: false
 
 # Google Analytics
 ga_track_id: "UA-49627206-1" # Format: UA-xxxxxx-xx
-ga_domain: https://github.com/roxy1103200
+ga_domain: roxy1103200.github.io
 
 
 # Sidebar settings
-sidebar: true # whether or not using Sidebar.
+sidebar: false # whether or not using Sidebar.
 sidebar-about-description: "要做一个有 swag 的程序员 <br> React Team @ Meta"
-sidebar-avatar: https://github.com/Huxpro.png # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: https://github.com/roxy1103200.png # use absolute URL for the profile image.

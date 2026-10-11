@@ -7,8 +7,8 @@
 <style type="text/css">
     header.intro-header{
         position: relative;
-        background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}');
-        background: {{ page.header-bg-css }};
+        background-image: none;
+        background-color: var(--page-bg, #101619);
     }
 
     {% if page.header-mask %}
@@ -40,7 +40,7 @@
                 <div class="post-heading">
                     <div class="tags">
                         {% for tag in page.tags %}
-                        <a class="tag" href="{{ site.baseurl }}/archive/?tag={{ tag | url_encode }}" title="{{ tag }}">{{ tag }}</a>
+                        <span class="tag" title="{{ tag }}">{{ tag }}</span>
                         {% endfor %}
                     </div>
                     <h1>{{ page.title }}</h1>
@@ -78,7 +78,7 @@
                 <div class="post-heading">
                     <div class="tags">
                         {% for tag in page.tags %}
-                        <a class="tag" href="{{ site.baseurl }}/archive/?tag={{ tag | url_encode }}" title="{{ tag }}">{{ tag }}</a>
+                        <span class="tag" title="{{ tag }}">{{ tag }}</span>
                         {% endfor %}
                     </div>
                     <h1>{{ page.title }}</h1>
@@ -94,7 +94,7 @@
 {% endif %}
 
 {% if include.type == 'page' %}
-<header class="intro-header" style="background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')">
+<header class="intro-header">
   <div class="header-mask"></div>
   <div class="container">
     <div class="row">

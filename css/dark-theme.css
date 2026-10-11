@@ -47,10 +47,11 @@ a:focus {
 
 .intro-header {
   background-color: #1b292d;
+  background-image: none !important;
 }
 
 .intro-header .header-mask {
-  background: linear-gradient(180deg, rgba(9, 15, 17, 0.18), rgba(9, 15, 17, 0.62));
+  display: none;
 }
 
 .intro-header.style-text {
@@ -337,16 +338,6 @@ footer {
 .navbar-custom.invert .navbar-brand:hover,
 .navbar-custom.invert .navbar-brand:focus {
   color: var(--accent-hover);
-}
-
-.navbar-custom.invert .new-site-link,
-.navbar-custom.is-fixed .new-site-link {
-  color: var(--text-primary);
-}
-
-.navbar-custom.invert .new-site-link::before,
-.navbar-custom.is-fixed .new-site-link::before {
-  background: rgba(240, 246, 250, 0.08);
 }
 
 .navbar-custom.is-fixed {
