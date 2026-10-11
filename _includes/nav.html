@@ -1,8 +1,8 @@
 <!-- Navigation -->
 {% if page.nav-style == "invert" or page.header-style == "text" %}
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top invert">
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top invert" aria-label="Primary navigation">
     {% else %}
-    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top" aria-label="Primary navigation">
         {% endif %}
         <a class="new-site-link" href="https://hux.pro" aria-label="Visit my new site: hux.pro · 访问我的新个站：hux.pro">
             <span class="new-site-wordmark" aria-hidden="true">λHUX</span>
@@ -14,8 +14,8 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle">
-                    <span class="sr-only">Toggle navigation</span>
+                <button type="button" class="navbar-toggle" aria-expanded="false" aria-controls="huxblog_navbar">
+                    <span class="sr-only">Toggle navigation / 展开或收起导航</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -38,7 +38,7 @@
                         {% endif %}
                         {% endfor %}
                         <li class="search-icon">
-                            <a href="javascript:void(0)">
+                            <a href="#search-dialog" aria-label="Search articles / 搜索文章" aria-haspopup="dialog" aria-controls="search-dialog" aria-expanded="false">
                                 <i class="fa fa-search"></i>
                             </a>
                         </li>
@@ -61,24 +61,27 @@
 
         var __HuxNav__ = {
             close: function () {
-                $navbar.className = " ";
+                $navbar.classList.remove('in');
+                $toggle.setAttribute('aria-expanded', 'false');
                 // wait until animation end.
                 setTimeout(function () {
                     // prevent frequently toggle
-                    if ($navbar.className.indexOf('in') < 0) {
+                    if (!$navbar.classList.contains('in')) {
                         $collapse.style.height = "0px"
                     }
                 }, 400)
             },
             open: function () {
                 $collapse.style.height = "auto"
-                $navbar.className += " in";
+                $navbar.classList.add('in');
+                $toggle.setAttribute('aria-expanded', 'true');
             }
         }
 
         // Bind Event
         $toggle.addEventListener('click', function (e) {
-            if ($navbar.className.indexOf('in') > 0) {
+            e.preventDefault();
+            if ($navbar.classList.contains('in')) {
                 __HuxNav__.close()
             } else {
                 __HuxNav__.open()
@@ -97,8 +100,20 @@
          * Also, we use 'click' instead of 'touchstart' as compromise
          */
         document.addEventListener('click', function (e) {
-            if (e.target == $toggle) return;
-            if (e.target.className == 'icon-bar') return;
+            if ($toggle.contains(e.target) || $navbar.contains(e.target)) return;
             __HuxNav__.close();
         })
+
+        $navbar.addEventListener('click', function (e) {
+            if (e.target.closest('a') && !e.target.closest('.search-icon')) {
+                __HuxNav__.close();
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && $navbar.classList.contains('in')) {
+                __HuxNav__.close();
+                $toggle.focus();
+            }
+        });
     </script>

@@ -1,16 +1,15 @@
 <!-- Search -->
-<div class="search-page">
+<div class="search-page" id="search-dialog" role="dialog" aria-modal="true" aria-label="Search articles / 搜索文章" aria-hidden="true">
   <div class="search-icon-close-container">
-    <span class="search-icon-close">
+    <button type="button" class="search-icon-close" aria-label="Close search / 关闭搜索">
       <i class="fa fa-chevron-down"></i>
-    </span>
+    </button>
   </div>
   <div class="search-main container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <form></form>
-        <input type="text" id="search-input" placeholder="$ grep...">
-        </form>
+        <label class="sr-only" for="search-input">Search articles / 搜索文章</label>
+        <input type="search" id="search-input" placeholder="Search the archive / 搜索文章…" autocomplete="off">
         <div id="search-results" class="mini-post-list"></div>
       </div>
     </div>

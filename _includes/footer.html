@@ -286,7 +286,7 @@
         resultsContainer: document.getElementById('search-results'),
         json: '/search.json',
         searchResultTemplate: '<div class="post-preview item"><a href="{url}"><h2 class="post-title">{title}</h2><h3 class="post-subtitle">{subtitle}</h3><hr></a></div>',
-        noResultsText: 'No results',
+        noResultsText: 'No matching articles found / 没有匹配的文章。',
         limit: 50,
         fuzzy: false,
         // a hack to get escaped subtitle unescaped. for some reason, 
@@ -302,29 +302,74 @@
         }
     });
 
-    $(document).ready(function () {
-        var $searchPage = $('.search-page');
-        var $searchOpen = $('.search-icon');
-        var $searchClose = $('.search-icon-close');
-        var $searchInput = $('#search-input');
-        var $body = $('body');
+    (function () {
+        var searchPage = document.querySelector('.search-page');
+        var searchOpen = document.querySelector('.search-icon a');
+        var searchClose = document.querySelector('.search-icon-close');
+        var searchInput = document.getElementById('search-input');
+        var nav = document.getElementById('huxblog_navbar');
+        var navToggle = document.querySelector('.navbar-toggle');
+        var returnFocus;
+        if (!searchPage || !searchOpen || !searchClose || !searchInput) return;
 
-        $searchOpen.on('click', function (e) {
-            e.preventDefault();
-            $searchPage.toggleClass('search-active');
-            var prevClasses = $body.attr('class') || '';
-            setTimeout(function () {
-                $body.addClass('no-scroll');
-            }, 400)
+        function openSearch(event) {
+            if (event) event.preventDefault();
+            var menuWasOpen = nav && nav.classList.contains('in');
+            returnFocus = menuWasOpen && navToggle ? navToggle : (event ? searchOpen : document.activeElement);
+            searchPage.classList.add('search-active');
+            searchPage.setAttribute('aria-hidden', 'false');
+            searchOpen.setAttribute('aria-expanded', 'true');
+            document.body.classList.add('no-scroll');
+            if (window.__HuxNav__) window.__HuxNav__.close();
+            window.requestAnimationFrame(function () { searchInput.focus(); });
+        }
 
-            if ($searchPage.hasClass('search-active')) {
-                $searchClose.on('click', function (e) {
-                    e.preventDefault();
-                    $searchPage.removeClass('search-active');
-                    $body.attr('class', prevClasses);  // from closure 
-                });
-                $searchInput.focus();
+        function closeSearch(restoreFocus) {
+            searchPage.classList.remove('search-active');
+            searchPage.setAttribute('aria-hidden', 'true');
+            searchOpen.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('no-scroll');
+            if (restoreFocus && returnFocus && typeof returnFocus.focus === 'function') returnFocus.focus();
+            returnFocus = null;
+        }
+
+        searchOpen.addEventListener('click', openSearch);
+        searchClose.addEventListener('click', function () { closeSearch(true); });
+        searchPage.addEventListener('click', function (event) {
+            if (event.target === searchPage) closeSearch(true);
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (!searchPage.classList.contains('search-active')) {
+                var target = event.target;
+                var isTyping = target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName);
+                var searchShortcut = event.key === '/' || ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k');
+                if (!isTyping && searchShortcut) {
+                    event.preventDefault();
+                    openSearch();
+                }
+                return;
+            }
+
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                closeSearch(true);
+                return;
+            }
+
+            if (event.key === 'Tab') {
+                var focusable = searchPage.querySelectorAll('button:not([disabled]), input:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])');
+                var first = focusable[0];
+                var last = focusable[focusable.length - 1];
+                if (!first || !last) return;
+                if (event.shiftKey && document.activeElement === first) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                    event.preventDefault();
+                    first.focus();
+                }
             }
         });
-    });
+    })();
 </script>
