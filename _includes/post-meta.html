@@ -1,0 +1,5 @@
+<p class="post-meta">
+  <span class="post-category"># {{ include.post.categories.first | default: include.post.tags.first | default: '随笔' | escape }}</span>
+  <span aria-hidden="true">·</span>
+  <time datetime="{{ include.post.date | date: '%Y-%m-%d' }}">{{ include.post.date | date: '%Y-%m-%d' }}</time>
+</p>

@@ -1,23 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-{% include head.html %}
-
-<!-- hack iOS CSS :active style -->
-<body ontouchstart="">
-
+<!doctype html>
+<html lang="{{ page.lang | default: site.lang }}">
+  {% include head.html %}
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
     {% include nav.html %}
-    {% include search.html %}
-
     {{ content }}
-
     {% include footer.html %}
-
-
-<!-- Image to hack wechat -->
-<img src="/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
-
-</body>
-
+  </body>
 </html>

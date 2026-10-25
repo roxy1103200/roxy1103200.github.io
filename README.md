@@ -1,63 +1,60 @@
-[Hux Blog](https://huxpro.github.io)
-================================
+# Roxy.Log
 
-> The original Jekyll blog and theme, preserved at [huxpro.github.io](https://huxpro.github.io). For Hux's current website, visit [hux.pro](https://hux.pro).
+一个只负责内容展示与个人链接跳转的静态博客。参考 `blog_index_prototype.html` 的深色双栏布局，使用 Jekyll 生成页面，发布到 GitHub Pages。
 
-![](https://huxpro.github.io/img/blog-desktop.jpg)
+## 页面
 
+- 首页：个人资料、技术栈、按时间倒序排列的全部文章。
+- 文章页：现有 Markdown 正文、代码高亮、返回首页链接。
+- 404 页面：失效链接提示与首页入口。
+- 个人链接：GitHub 主页和邮箱。
 
-[User Manual 👉](_doc/Manual.md)
---------------------------------------------------
+页面不加载应用脚本、第三方字体或外部样式。搜索、分类筛选、主题切换、评论、广告、访问统计、RSS、分页和 PWA 已移除。`sw.js` 仅用于注销旧版离线缓存，不会被新页面注册。
 
-### Getting Started
+## 本地预览
 
-1. You will need [Ruby](https://www.ruby-lang.org/en/) and [Bundler](https://bundler.io/) to use [Jekyll](https://jekyllrb.com/). Following [Using Jekyll with Bundler](https://jekyllrb.com/tutorials/using-jekyll-with-bundler/) to fullfill the enviromental requirement.
-
-2. Installed dependencies in the `Gemfile`:
-
-```sh
-$ bundle install 
-```
-
-3. Serve the website (`localhost:4000` by default):
+需要 Ruby 和 Bundler，在项目目录执行：
 
 ```sh
-$ bundle exec jekyll serve  # alternatively, npm start
+bundle install
+bundle exec jekyll serve --host 127.0.0.1
 ```
 
-### Development (Build From Source)
+浏览器打开终端显示的本地地址。生成发布文件：
 
-To modify the theme, you will need [Grunt](https://gruntjs.com/). There are numbers of tasks you can find in the `Gruntfile.js`, includes minifing JavaScript, compiling `.less` to `.css`, adding banners to keep the Apache 2.0 license intact, watching for changes, etc. 
+```sh
+bundle exec jekyll build
+```
 
-Yes, they were inherited and are extremely old-fashioned. There is no modularization and transpilation, etc.
+生成结果位于 `_site/`。项目无需 Node.js、npm、Grunt 或 Less。
 
-Critical Jekyll-related code are located in `_include/` and `_layouts/`. Most of them are [Liquid](https://github.com/Shopify/liquid/wiki) templates.
+## 修改内容
 
-This theme uses the default code syntax highlighter of jekyll, [Rouge](http://rouge.jneen.net/), which is compatible with Pygments theme so just pick any pygments theme css (e.g. from [here](http://jwarby.github.io/jekyll-pygments-themes/languages/javascript.html) and replace the content of `highlight.less`.
+在 `_config.yml` 中修改站点标题、`profile` 下的个人介绍、GitHub、邮箱和技术栈。文章数量和标签数量从文章自动统计，不包含虚构的专栏或开源项目数量。
 
+在 `_posts/` 新增 `YYYY-MM-DD-slug.md`：
 
-### Interesting to know more? Checkout the [full user manual](_doc/Manual.md)!
+```markdown
+---
+layout: post
+title: "文章标题"
+subtitle: "可选副标题"
+date: 2026-10-25 12:00:00 +0800
+author: Roxy
+tags: [Java, 随笔]
+---
 
+正文从这里开始。
+```
 
-Other Resources
----------------
+可选的 `description` 字段可指定首页摘要；未填写时从正文自动截取。标签仅用于展示，不提供筛选。原有文章文件和 `/年/月/日/文章名/` 地址保持不变。
 
-Ports
-- [**Hexo**](https://github.com/Kaijun/hexo-theme-huxblog) by @kaijun
-- [**React-SSR**](https://github.com/LucasIcarus/huxpro.github.io/tree/ssr) by @LucasIcarus
+页面样式统一维护在 `assets/site.css`，公共布局在 `_layouts/`，公共片段在 `_includes/`。修改 `baseurl` 后，站内资源和文章链接会自动添加对应的路径前缀。
 
-[Starter/Boilerplate](https://github.com/huxpro/huxblog-boilerplate)
-- Out of date. Helps wanted for updating it on par with the main repo
+## 发布
 
-Translation
-- [🇨🇳  中文文档（有点过时）](https://github.com/Huxpro/huxpro.github.io/blob/master/_doc/README.zh.md)
+保留 `.github/workflows/jekyll.yml`：推送到 `master` 分支后构建并发布到 GitHub Pages，也可在 Actions 手动运行。本地改动不会自动推送或触发发布。
 
+## 来源
 
-License
--------
-
-Apache License 2.0.
-Copyright (c) 2015-present Huxpro
-
-Hux Blog is derived from [Clean Blog Jekyll Theme (MIT License)](https://github.com/BlackrockDigital/startbootstrap-clean-blog-jekyll/)
-Copyright (c) 2013-2016 Blackrock Digital LLC.
+本项目由 [Hux Blog](https://github.com/Huxpro/huxpro.github.io) 精简重构，保留原有 [LICENSE](LICENSE) 与页脚来源信息。

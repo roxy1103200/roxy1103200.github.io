@@ -1,15 +1,15 @@
 ---
 layout: default
-title: 404
-hide-in-nav: true
-description: "你来到了没有知识的荒原 :("
+title: 页面未找到
 permalink: /404.html
+noindex: true
 ---
 
-
-<!-- Page Header -->
-{% include intro-header.html type="page" short='true' %}
-
-<script>
-	document.body.classList.add('page-fullscreen');
-</script>
+<main id="main-content" class="reading-layout error-layout" tabindex="-1">
+  <div class="card error-card">
+    <p class="eyebrow">404 / PAGE NOT FOUND</p>
+    <h1>这页还没有留下记录。</h1>
+    <p>链接可能已经失效，回首页看看其他文章吧。</p>
+    <a class="github-cta" href="{{ '/' | relative_url }}">返回首页 {% include icon.html name="arrow" %}</a>
+  </div>
+</main>

@@ -1,112 +1,15 @@
-<!-- Navigation -->
-{% if page.nav-style == "invert" or page.header-style == "text" %}
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top invert" aria-label="Primary navigation">
-    {% else %}
-    <nav class="navbar navbar-default navbar-custom navbar-fixed-top" aria-label="Primary navigation">
-        {% endif %}
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" aria-expanded="false" aria-controls="huxblog_navbar">
-                    <span class="sr-only">Toggle navigation / 展开或收起导航</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ site.baseurl }}/">{{ site.title }}</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div id="huxblog_navbar">
-                <div class="navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="{{ site.baseurl }}/">Home</a>
-                        </li>
-                        {% for page in site.pages %}
-                        {% if page.title and page.hide-in-nav != true %}
-                        <li>
-                            <a href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
-                        </li>
-                        {% endif %}
-                        {% endfor %}
-                        <li class="search-icon">
-                            <a href="#search-dialog" aria-label="Search articles / 搜索文章" aria-haspopup="dialog" aria-controls="search-dialog" aria-expanded="false">
-                                <i class="fa fa-search"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
-    <script>
-        // Drop Bootstarp low-performance Navbar
-        // Use customize navbar with high-quality material design animation
-        // in high-perf jank-free CSS3 implementation
-        var $body = document.body;
-        var $toggle = document.querySelector('.navbar-toggle');
-        var $navbar = document.querySelector('#huxblog_navbar');
-        var $collapse = document.querySelector('.navbar-collapse');
-
-        var __HuxNav__ = {
-            close: function () {
-                $navbar.classList.remove('in');
-                $toggle.setAttribute('aria-expanded', 'false');
-                // wait until animation end.
-                setTimeout(function () {
-                    // prevent frequently toggle
-                    if (!$navbar.classList.contains('in')) {
-                        $collapse.style.height = "0px"
-                    }
-                }, 400)
-            },
-            open: function () {
-                $collapse.style.height = "auto"
-                $navbar.classList.add('in');
-                $toggle.setAttribute('aria-expanded', 'true');
-            }
-        }
-
-        // Bind Event
-        $toggle.addEventListener('click', function (e) {
-            e.preventDefault();
-            if ($navbar.classList.contains('in')) {
-                __HuxNav__.close()
-            } else {
-                __HuxNav__.open()
-            }
-        })
-
-        /**
-         * Since Fastclick is used to delegate 'touchstart' globally
-         * to hack 300ms delay in iOS by performing a fake 'click',
-         * Using 'e.stopPropagation' to stop 'touchstart' event from 
-         * $toggle/$collapse will break global delegation.
-         * 
-         * Instead, we use a 'e.target' filter to prevent handler
-         * added to document close HuxNav.  
-         *
-         * Also, we use 'click' instead of 'touchstart' as compromise
-         */
-        document.addEventListener('click', function (e) {
-            if ($toggle.contains(e.target) || $navbar.contains(e.target)) return;
-            __HuxNav__.close();
-        })
-
-        $navbar.addEventListener('click', function (e) {
-            if (e.target.closest('a') && !e.target.closest('.search-icon')) {
-                __HuxNav__.close();
-            }
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && $navbar.classList.contains('in')) {
-                __HuxNav__.close();
-                $toggle.focus();
-            }
-        });
-    </script>
+<header class="site-header">
+  <nav class="nav-container" aria-label="主导航">
+    <a class="logo" href="{{ '/' | relative_url }}" aria-label="{{ site.title | escape }} 首页">
+      {% include icon.html name="code" %}<span>{{ site.profile.name | escape }}<span class="logo-accent">.Log</span></span>
+    </a>
+    <div class="nav-actions">
+      <a class="nav-link" href="{{ '/' | relative_url }}#posts">文章记录</a>
+      {% if site.profile.github %}
+      <a class="github-button" href="{{ site.profile.github | escape }}" target="_blank" rel="noopener noreferrer" aria-label="访问 {{ site.profile.name | escape }} 的 GitHub 主页（新窗口）">
+        {% include icon.html name="github" %}<span>GitHub</span>
+      </a>
+      {% endif %}
+    </div>
+  </nav>
+</header>
